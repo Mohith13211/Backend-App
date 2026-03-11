@@ -11,10 +11,30 @@
     border-radius: 5px;
     
 }
-.header{
-    background-color: beige;
+
+*{
+    margin: 0px;
 }
-.footer{
-    background-color: blanchedalmond;
+.header{
+    display: flex;
+    justify-content: space-between;
+    background-color: burlywood;
+    color: white;
+    padding: 10px;
 }
 
+.header li{
+    display: inline-block;
+    padding: 5px;
+    font-size: 20px;
+    
+}
+.footer{
+    background-color: cornsilk;
+    padding: 5px;
+}
+.bodyy{
+    /* background-color: beige; */
+    background-color: cornsilk;
+
+}
