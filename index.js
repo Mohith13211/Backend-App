@@ -1,12 +1,12 @@
-import dotenv from "dotenv";
-dotenv.config()
+
 import express from "express";
 import expressLayouts from "express-ejs-layouts";
 import session from "express-session";
 import cors from "cors";
 import { authenticateAdmin } from "./middleware/auth.js";
 
-
+import dotenv from "dotenv";
+dotenv.config()
 import dbConnect from "./config/db.js";
 
 
@@ -18,12 +18,13 @@ import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
 
 const app = express();
-
+app.use(cors());
 app.use(expressLayouts);
 app.set("view engine", "ejs");
 app.set("views", "views");
 app.set("layout","layout");
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static("public"));
 
 app.use(
@@ -34,10 +35,16 @@ app.use(
   }),
 );
 
-app.use("/", storeRouter);
-// app.use("/auth", authRouter);
-app.use("/products", productRouter);
-// app.use("/users", userRouter);
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
+app.use("/auth", authRouter);
+app.use("/store", storeRouter);
+app.use("/", authenticateAdmin, homeRouter);
+app.use("/products", authenticateAdmin, productRouter);
+app.use("/users", authenticateAdmin, userRouter);
 
 const startServer = async () => {
   await dbConnect();
