@@ -46,6 +46,10 @@ app.use("/", authenticateAdmin, homeRouter);
 app.use("/products", authenticateAdmin, productRouter);
 app.use("/users", authenticateAdmin, userRouter);
 
+// app.use("/", homeRouter);
+// app.use("/products",productRouter);
+// app.use("/users",userRouter);
+
 const startServer = async () => {
   await dbConnect();
   app.listen(5000,()=>{
